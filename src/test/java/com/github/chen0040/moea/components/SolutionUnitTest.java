@@ -3,7 +3,6 @@ package com.github.chen0040.moea.components;
 
 import com.github.chen0040.moea.utils.ArrayListUtils;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -24,7 +23,7 @@ public class SolutionUnitTest {
       mediator = new Mediator();
       mediator.setDimension(dimension);
       mediator.setLowerBounds(ArrayListUtils.zeros(dimension));
-      mediator.setUpperBounds(ArrayListUtils.asArray(1.0, dimension));
+      mediator.setUpperBounds(ArrayListUtils.asList(1.0, dimension));
       mediator.setObjectiveCount(3);
       mediator.setMutationRate(0.2);
 

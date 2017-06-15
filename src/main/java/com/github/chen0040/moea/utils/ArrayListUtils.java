@@ -18,10 +18,19 @@ public class ArrayListUtils {
    }
 
 
-   public static List<Double> asArray(double value, int size) {
+   public static List<Double> asList(double value, int size) {
       List<Double> result = new ArrayList<>();
       for(int i=0; i < size; ++i) {
          result.add(value);
+      }
+      return result;
+   }
+
+
+   public static List<Integer> range(int upper) {
+      List<Integer> result = new ArrayList<>();
+      for(int i=0; i < upper; ++i) {
+         result.add(i);
       }
       return result;
    }
