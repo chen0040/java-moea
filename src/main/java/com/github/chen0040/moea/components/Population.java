@@ -53,6 +53,10 @@ public class Population implements Serializable {
 
    }
 
+   public boolean add(Solution s) {
+      solutions.add(s);
+      return true;
+   }
 
    public int size() {
       return solutions.size();

@@ -171,4 +171,14 @@ public class Solution implements Serializable {
    @Override public int hashCode() {
       return data.hashCode();
    }
+
+
+   public double getCost(int i) {
+      return costs.get(i);
+   }
+
+   public double getConstraint(int i) {
+      return constraints.get(i);
+   }
+
 }
