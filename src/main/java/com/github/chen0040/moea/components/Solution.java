@@ -181,4 +181,8 @@ public class Solution implements Serializable {
       return constraints.get(i);
    }
 
+
+   @Override public String toString() {
+      return "Solution{" + "costs=" + costs + ", data=" + data + '}';
+   }
 }

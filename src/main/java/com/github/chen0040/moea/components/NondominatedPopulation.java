@@ -94,7 +94,7 @@ public class NondominatedPopulation extends Population {
    }
 
    // sort by costs and constraints and truncate
-   public void sortDescAndTruncate(int size)
+   public void truncate(int size)
    {
       // solutions must be sorted descendingly such that solutions[0] is the best solution
       sortAndTruncate(size, NondominatedPopulation::invertedCompare);

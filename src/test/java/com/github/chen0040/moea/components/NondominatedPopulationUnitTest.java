@@ -47,7 +47,7 @@ public class NondominatedPopulationUnitTest {
       for(Solution s : population) {
          s.evaluate(mediator);
       }
-      population.sortDescAndTruncate(99);
+      population.truncate(99);
 
       assertThat(population.size()).isEqualTo(99);
       assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedPopulation::compare));
@@ -65,6 +65,7 @@ public class NondominatedPopulationUnitTest {
 
       for(int i=0; i < 100; ++i) {
          Solution s = new Solution();
+         s.initialize(mediator);
          s.evaluate(mediator);
          population.add(s);
       }

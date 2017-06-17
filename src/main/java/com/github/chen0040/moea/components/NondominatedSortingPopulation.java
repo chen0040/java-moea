@@ -68,7 +68,7 @@ public class NondominatedSortingPopulation extends Population {
    }
 
    // sort by rank and crowding distance and truncate
-   public void sortDescAndTruncate(int size)
+   public void truncate(int size)
    {
       ensureRankedByObjectiveAndConstraint();
 

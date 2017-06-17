@@ -56,6 +56,47 @@ public class NondominatedSortingPopulationUnitTest {
    }
 
    @Test
+   public void test_add(){
+      NondominatedSortingPopulation population = new NondominatedSortingPopulation();
+      population.setMediator(mediator);
+
+      for(int i = 0; i < 100; ++i) {
+         Solution s = new Solution();
+         s.initialize(mediator);
+         s.evaluate(mediator);
+         population.add(s);
+      }
+
+      population.sort();
+
+      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedSortingPopulation::compare));
+
+      for(int i=0; i < 10; ++i){
+         Solution s1 = population.get(i);
+         System.out.println("rank: " + s1.getRank());
+      }
+   }
+
+   @Test
+   public void test_truncate(){
+      NondominatedSortingPopulation population = new NondominatedSortingPopulation();
+      population.setMediator(mediator);
+      population.initialize();
+
+      for(Solution s : population) {
+         s.evaluate(mediator);
+      }
+      population.truncate(50);
+
+      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedSortingPopulation::compare));
+
+      for(int i=0; i < 10; ++i){
+         Solution s1 = population.get(i);
+         System.out.println("rank: " + s1.getRank());
+      }
+   }
+
+   @Test
    public void test_better(){
       Solution s1 = new Solution();
       s1.setRank(1);
@@ -81,6 +122,7 @@ public class NondominatedSortingPopulationUnitTest {
       NondominatedSortingPopulation population2 = (NondominatedSortingPopulation)population.makeCopy();
       for(int i=0; i < 10; ++i) {
          Solution s =new Solution();
+         s.initialize(mediator);
          s.evaluate(mediator);
          population2.replace(population2.any(), s);
       }
