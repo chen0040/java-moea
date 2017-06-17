@@ -18,8 +18,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class NSGAII {
-   private Mediator mediator = new Mediator();
+public class NSGAII extends Mediator {
 
    private int displayEvery = -1;
 
@@ -34,7 +33,7 @@ public class NSGAII {
 
    public NondominatedPopulation solve(){
       initialize();
-      int maxGenerations = mediator.getMaxGenerations();
+      int maxGenerations = this.getMaxGenerations();
       for(int generation = 0; generation < maxGenerations; ++generation) {
          evolve();
          if(displayEvery > 0 && generation % displayEvery == 0){
@@ -46,10 +45,10 @@ public class NSGAII {
    }
 
    public void initialize(){
-      archive.setMediator(mediator);
+      archive.setMediator(this);
       archive.clear();
 
-      population.setMediator(mediator);
+      population.setMediator(this);
       population.initialize();
       evaluate(population);
       population.sort();
@@ -59,13 +58,13 @@ public class NSGAII {
    public void evolve()
    {
       Population offspring = new Population();
-      offspring.setMediator(mediator);
+      offspring.setMediator(this);
 
-      int populationSize = mediator.getPopulationSize();
+      int populationSize = this.getPopulationSize();
 
       while (offspring.size() < populationSize)
       {
-         TournamentSelectionResult<Solution> tournament = TournamentSelection.select(population.getSolutions(), mediator.getRandomGenerator(), (s1, s2) ->
+         TournamentSelectionResult<Solution> tournament = TournamentSelection.select(population.getSolutions(), this.getRandomGenerator(), (s1, s2) ->
          {
             int flag;
             if ((flag = InvertedCompareUtils.ConstraintCompare(s1, s2))==0) // return -1 if s1 is better
@@ -81,10 +80,10 @@ public class NSGAII {
 
          TupleTwo<Solution, Solution> tournament_winners = tournament.getWinners();
 
-         TupleTwo<Solution, Solution> children = Crossover.apply(mediator, tournament_winners._1(), tournament_winners._2());
+         TupleTwo<Solution, Solution> children = Crossover.apply(this, tournament_winners._1(), tournament_winners._2());
 
-         Mutation.apply(mediator, children._1());
-         Mutation.apply(mediator, children._2());
+         Mutation.apply(this, children._1());
+         Mutation.apply(this, children._2());
 
          offspring.add(children._1());
          offspring.add(children._2());
@@ -92,7 +91,7 @@ public class NSGAII {
 
       evaluate(offspring);
 
-      ReplacementType replacementType = mediator.getReplacementType();
+      ReplacementType replacementType = this.getReplacementType();
       if(replacementType == ReplacementType.Generational) {
          merge1(offspring);
       } else if(replacementType == ReplacementType.Tournament) {
@@ -106,22 +105,22 @@ public class NSGAII {
       for (int i = 0; i < population.size(); ++i)
       {
          Solution s = population.getSolutions().get(i);
-         s.evaluate(mediator);
+         s.evaluate(this);
 
          //System.out.println("cost1: " + s.getCost(0) + "\tcost2:" + s.getCost(1));
 
          boolean is_archivable = archive.add(s);
 
-         if (archive.size() > mediator.getMaxArchive())
+         if (archive.size() > this.getMaxArchive())
          {
-            archive.truncate(mediator.getMaxArchive());
+            archive.truncate(this.getMaxArchive());
          }
       }
    }
 
    protected void merge2(Population children)
    {
-      int populationSize = mediator.getPopulationSize();
+      int populationSize = this.getPopulationSize();
 
       Population offspring = new Population();
 
@@ -162,7 +161,7 @@ public class NSGAII {
 
    protected void merge1(Population children)
    {
-      int populationSize = mediator.getPopulationSize();
+      int populationSize = this.getPopulationSize();
 
       population.add(children);
 
