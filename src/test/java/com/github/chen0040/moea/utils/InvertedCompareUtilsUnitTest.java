@@ -1,12 +1,10 @@
 package com.github.chen0040.moea.utils;
 
 
-import com.github.chen0040.moea.components.NondominatedSortingPopulation;
 import com.github.chen0040.moea.components.Solution;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.testng.Assert.*;
 
 
 /**

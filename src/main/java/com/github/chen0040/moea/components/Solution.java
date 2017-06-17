@@ -20,17 +20,17 @@ public class Solution implements Serializable {
    private static final long serialVersionUID = -3869812161043718757L;
 
    @Setter(AccessLevel.NONE)
-   protected final List<Double> costs = new ArrayList<>();
+   protected final List<Double> costs = new ArrayList<>(); // the lower the cost the better the solution
 
    @Setter(AccessLevel.NONE)
-   protected final List<Double> constraints = new ArrayList<>();
+   protected final List<Double> constraints = new ArrayList<>(); // the lower the constraint the better the solution
 
    @Setter(AccessLevel.NONE)
    @Getter(AccessLevel.NONE)
    protected final List<Double> data = new ArrayList<>();
 
-   protected int rank = 0;
-   protected double crowdingDistance = 0;
+   protected int rank = 0; // the lower the rank the better the solution
+   protected double crowdingDistance = 0; // the higher the distance the better the solution
 
    public Solution()
    {

@@ -15,13 +15,13 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class NondominatedSortingPopulation extends Population {
+public class NondominatedPopulation extends Population {
    public static final double Epsilon = 1e-10;
    private static final long serialVersionUID = 5499819471836071184L;
 
    @Override
    public Population makeCopy(){
-      NondominatedSortingPopulation clone = new NondominatedSortingPopulation();
+      NondominatedPopulation clone = new NondominatedPopulation();
       clone.copy(this);
       return clone;
    }
@@ -31,11 +31,11 @@ public class NondominatedSortingPopulation extends Population {
    }
 
    public static int invertedCompare(Solution s1, Solution s2) {
-      int flag = InvertedCompareUtils.RankCompare(s1, s2);
+      int flag = InvertedCompareUtils.ConstraintCompare(s1, s2);
 
       if (flag == 0)
       {
-         flag = InvertedCompareUtils.CrowdingDistanceCompare(s1, s2);
+         flag = InvertedCompareUtils.ParetoObjectiveCompare(s1, s2);
       }
       return flag;
    }
@@ -46,7 +46,7 @@ public class NondominatedSortingPopulation extends Population {
       List<Solution> solutions_to_remove = new ArrayList<>();
 
       // solutions must be sorted descendingly at this point such that solutions[0] is the best solution
-      assert SortUtils.isSortedDesc(solutions, NondominatedSortingPopulation::compare);
+      assert SortUtils.isSortedDesc(solutions, NondominatedPopulation::compare);
 
       boolean should_add = true;
       int size = solutions.size();
@@ -97,7 +97,7 @@ public class NondominatedSortingPopulation extends Population {
    public void sortDescAndTruncate(int size)
    {
       // solutions must be sorted descendingly such that solutions[0] is the best solution
-      sortAndTruncate(size, NondominatedSortingPopulation::invertedCompare);
+      sortAndTruncate(size, NondominatedPopulation::invertedCompare);
    }
 
    public static boolean better(Solution s1, Solution s2) {
@@ -107,7 +107,7 @@ public class NondominatedSortingPopulation extends Population {
    public boolean replace(Solution solution_to_remove, Solution solution_to_add)
    {
       // solutions must be sorted descendingly at this point such that solutions[0] is the best solution
-      assert SortUtils.isSortedDesc(solutions, NondominatedSortingPopulation::compare);
+      assert SortUtils.isSortedDesc(solutions, NondominatedPopulation::compare);
 
       int index = solutions.indexOf(solution_to_remove);
       if(index == -1){
