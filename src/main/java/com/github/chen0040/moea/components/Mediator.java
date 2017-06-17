@@ -4,7 +4,7 @@ package com.github.chen0040.moea.components;
 import com.github.chen0040.moea.enums.CrossoverType;
 import com.github.chen0040.moea.enums.MutationType;
 import com.github.chen0040.moea.enums.ReplacementType;
-import com.github.chen0040.moea.tutorials.Tutorial;
+import com.github.chen0040.moea.problems.ProblemInstance;
 import com.github.chen0040.moea.utils.CostFunction;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,17 +35,17 @@ public class Mediator implements Serializable {
    private ReplacementType replacementType = ReplacementType.Generational;
    private int maxArchive = 50;
 
-   public void read(Tutorial tutorial) {
-      objectiveCount = tutorial.getObjectiveCount();
-      dimension = tutorial.getDimension();
+   public void read(ProblemInstance problemInstance) {
+      objectiveCount = problemInstance.getObjectiveCount();
+      dimension = problemInstance.getDimension();
 
       lowerBounds.clear();
-      lowerBounds.addAll(tutorial.getLowerBounds());
+      lowerBounds.addAll(problemInstance.getLowerBounds());
 
       upperBounds.clear();
-      upperBounds.addAll(tutorial.getUpperBounds());
+      upperBounds.addAll(problemInstance.getUpperBounds());
 
-      costFunction = (CostFunction) (s, objective_index, lowerBounds, upperBounds) -> tutorial.getCost(s, objective_index);
+      costFunction = (CostFunction) (s, objective_index, lowerBounds, upperBounds) -> problemInstance.getCost(s, objective_index);
    }
 
 

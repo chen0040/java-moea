@@ -1,4 +1,4 @@
-package com.github.chen0040.moea.tutorials;
+package com.github.chen0040.moea.problems;
 
 
 import com.github.chen0040.moea.components.Solution;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by xschen on 17/6/2017.
  */
-public class OKA2 implements Tutorial {
+public class OKA2 implements ProblemInstance {
    @Override public double getCost(Solution x, int objective_index) {
       double f=0;
       switch(objective_index)

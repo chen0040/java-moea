@@ -2,19 +2,16 @@ package com.github.chen0040.moea.algorithms;
 
 
 import com.github.chen0040.moea.components.NondominatedPopulation;
-import com.github.chen0040.moea.components.Solution;
 import com.github.chen0040.moea.enums.CrossoverType;
 import com.github.chen0040.moea.enums.ReplacementType;
-import com.github.chen0040.moea.tutorials.NDND;
-import com.github.chen0040.moea.tutorials.OKA2;
-import com.github.chen0040.moea.tutorials.TNK;
+import com.github.chen0040.moea.problems.NDND;
+import com.github.chen0040.moea.problems.OKA2;
+import com.github.chen0040.moea.problems.SYMPART;
+import com.github.chen0040.moea.problems.TNK;
 import com.github.chen0040.moea.utils.CostFunction;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
-import java.util.List;
-
-import static org.testng.Assert.*;
 
 
 /**
@@ -74,6 +71,17 @@ public class NSGAIIUnitTest {
    public void test_oka2(){
       NSGAII algorithm = new NSGAII();
       algorithm.read(new OKA2());
+      algorithm.setPopulationSize(100);
+      algorithm.setMaxGenerations(50);
+      algorithm.setDisplayEvery(10);
+
+      NondominatedPopulation pareto_front = algorithm.solve();
+   }
+
+   @Test
+   public void test_sympart(){
+      NSGAII algorithm = new NSGAII();
+      algorithm.read(new SYMPART());
       algorithm.setPopulationSize(100);
       algorithm.setMaxGenerations(50);
       algorithm.setDisplayEvery(10);

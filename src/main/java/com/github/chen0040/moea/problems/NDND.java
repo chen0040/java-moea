@@ -1,4 +1,4 @@
-package com.github.chen0040.moea.tutorials;
+package com.github.chen0040.moea.problems;
 
 
 import com.github.chen0040.moea.components.Solution;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by xschen on 17/6/2017.
  */
-public class NDND implements Tutorial {
+public class NDND implements ProblemInstance {
    @Override public double getCost(Solution x, int objective_index) {
 
       double f1 = 1 - Math.exp((-4) * x.get(0)) * Math.pow(Math.sin(5 * Math.PI * x.get(0)), 4);
