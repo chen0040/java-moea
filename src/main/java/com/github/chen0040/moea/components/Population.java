@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -17,7 +18,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class Population implements Serializable {
+public class Population implements Serializable,Iterable<Solution> {
 
    private static final long serialVersionUID = -7818958192871058630L;
 
@@ -38,14 +39,17 @@ public class Population implements Serializable {
    }
 
    public void add(Population population){
-      solutions.addAll(population.solutions);
+      for(Solution s : population){
+         add(s);
+      }
    }
 
-   public void truncate(int size, Comparator<Solution> comparator) {
+   public void sortAndTruncate(int size, Comparator<Solution> comparator) {
 
       int current_size = solutions.size();
+      QuickSort.sort(solutions, comparator);
+
       if(current_size > size) {
-         QuickSort.sort(solutions, comparator);
          for(int i= current_size - 1; i >= size; --i){
             solutions.remove(i);
          }
@@ -60,5 +64,31 @@ public class Population implements Serializable {
 
    public int size() {
       return solutions.size();
+   }
+
+
+   @Override public Iterator<Solution> iterator() {
+      return solutions.iterator();
+   }
+
+
+   public Solution get(int i) {
+      return solutions.get(i);
+   }
+
+   public Population makeCopy() {
+      Population clone = new Population();
+      clone.copy(this);
+      return clone;
+   }
+
+   public void copy(Population rhs) {
+      populationSize = rhs.populationSize;
+      generation = rhs.generation;
+      solutions.clear();
+      for(Solution s : rhs.solutions) {
+         solutions.add(s.makeCopy());
+      }
+      mediator = rhs.mediator;
    }
 }

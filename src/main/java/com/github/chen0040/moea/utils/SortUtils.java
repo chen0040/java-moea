@@ -1,6 +1,8 @@
 package com.github.chen0040.moea.utils;
 
 
+import com.github.chen0040.moea.components.Solution;
+
 import java.util.Comparator;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class SortUtils {
       a.set(j, temp);
    }
 
-   public static <S> boolean isSorted(List<S> a, Comparator<S> comparator) {
+   public static <S> boolean isSortedAsc(List<S> a, Comparator<S> comparator) {
       for(int i=1; i < a.size(); ++i) {
          int j = i-1;
          if(comparator.compare(a.get(j), a.get(i)) > 0) {
@@ -41,4 +43,16 @@ public class SortUtils {
       }
       System.out.println("]");
    }
+
+
+   public static <S> boolean isSortedDesc(List<S> a, Comparator<S> comparator) {
+      for(int i=1; i < a.size(); ++i) {
+         int j = i-1;
+         if(comparator.compare(a.get(j), a.get(i)) < 0) {
+            return false;
+         }
+      }
+      return true;
+   }
+
 }

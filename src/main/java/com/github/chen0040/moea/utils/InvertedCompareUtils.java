@@ -8,7 +8,7 @@ import com.github.chen0040.moea.components.Solution;
 /**
  * Created by xschen on 16/6/2017.
  */
-public class CompareUtils {
+public class InvertedCompareUtils {
    public static TupleTwo<Integer, Boolean> EpsilonObjectiveCompare(Solution solution1, Solution solution2, double[] epsilons)
    {
       boolean is_same_box=false;
@@ -93,14 +93,14 @@ public class CompareUtils {
    public static int ConstraintCompare(Solution solution1, Solution solution2)
    {
       double constraints1 = 0;
-      int objective_count = solution1.getCosts().size();
-      for (int i = 0; i < objective_count; i++)
+      int constraint_count = solution1.getConstraints().size();
+      for (int i = 0; i < constraint_count; i++)
       {
          constraints1 += Math.abs(solution1.getConstraint(i));
       }
 
       double constraints2 = 0;
-      for (int i = 0; i < objective_count; i++)
+      for (int i = 0; i < constraint_count; i++)
       {
          constraints2 += Math.abs(solution2.getConstraint(i));
       }
@@ -131,8 +131,8 @@ public class CompareUtils {
       boolean dominate1 = false;
       boolean dominate2 = false;
 
-      int objective_count = solution1.getCosts().size();
-      for (int i = 0; i < objective_count; i++)
+      int constraint_count = solution1.getConstraints().size();
+      for (int i = 0; i < constraint_count; i++)
       {
          if (Math.abs(solution1.getConstraint(i)) < Math.abs(solution2.getConstraint(i)))
          {
@@ -176,7 +176,7 @@ public class CompareUtils {
       {
          if (solution1.getCost(i) < solution2.getCost(i))
          {
-            dominate1 = true;
+            dominate1 = true; // solution 2 is dominated
 
             if (dominate2)
             {
@@ -185,7 +185,7 @@ public class CompareUtils {
          }
          else if (solution1.getCost(i) > solution2.getCost(i))
          {
-            dominate2 = true;
+            dominate2 = true; // solution 1 is dominated
 
             if (dominate1)
             {

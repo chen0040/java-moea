@@ -11,7 +11,6 @@ import java.util.Comparator;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.testng.Assert.*;
 
 
 /**
@@ -52,7 +51,7 @@ public class PopulationUnitTest {
 
       assertThat(p.size()).isEqualTo(1000);
 
-      p.truncate(500, Comparator.comparingDouble(s -> s.getCosts().get(0)));
+      p.sortAndTruncate(500, Comparator.comparingDouble(s -> s.getCosts().get(0)));
 
       assertThat(p.size()).isEqualTo(500);
    }

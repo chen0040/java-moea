@@ -21,7 +21,7 @@ public class QuickSortUnitTest {
 
       QuickSort.sort(a, Integer::compareTo);
 
-      assertTrue(SortUtils.isSorted(a, Integer::compareTo));
+      assertTrue(SortUtils.isSortedAsc(a, Integer::compareTo));
 
       SortUtils.print(a);
    }
@@ -31,11 +31,11 @@ public class QuickSortUnitTest {
       List<Integer> a = ArrayListUtils.range(100);
       KnuthShuffle.shuffle(a, new RandomGeneratorImpl());
 
-      assertFalse(SortUtils.isSorted(a, Integer::compareTo));
+      assertFalse(SortUtils.isSortedAsc(a, Integer::compareTo));
 
       QuickSort.sort(a, Integer::compareTo);
 
-      assertTrue(SortUtils.isSorted(a, Integer::compareTo));
+      assertTrue(SortUtils.isSortedAsc(a, Integer::compareTo));
 
       SortUtils.print(a);
    }

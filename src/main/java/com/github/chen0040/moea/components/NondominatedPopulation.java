@@ -1,7 +1,8 @@
 package com.github.chen0040.moea.components;
 
 
-import com.github.chen0040.moea.utils.CompareUtils;
+import com.github.chen0040.moea.utils.InvertedCompareUtils;
+import com.github.chen0040.moea.utils.SortUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,13 +17,25 @@ import java.util.List;
 @Setter
 public class NondominatedPopulation extends Population {
    public static final double Epsilon = 1e-10;
+   private static final long serialVersionUID = 5499819471836071184L;
 
-   public static int compare(Solution s1, Solution s2) {
-      int flag = CompareUtils.ConstraintCompare(s1, s2);
+   @Override
+   public Population makeCopy(){
+      NondominatedPopulation clone = new NondominatedPopulation();
+      clone.copy(this);
+      return clone;
+   }
+
+   public static int compare(Solution s1, Solution s2){
+      return - invertedCompare(s1, s2);
+   }
+
+   public static int invertedCompare(Solution s1, Solution s2) {
+      int flag = InvertedCompareUtils.ConstraintCompare(s1, s2);
 
       if (flag == 0)
       {
-         flag = CompareUtils.ParetoObjectiveCompare(s1, s2);
+         flag = InvertedCompareUtils.ParetoObjectiveCompare(s1, s2);
       }
       return flag;
    }
@@ -32,17 +45,21 @@ public class NondominatedPopulation extends Population {
    {
       List<Solution> solutions_to_remove = new ArrayList<>();
 
-      // solutions must be sorted at this point
+      // solutions must be sorted descendingly at this point such that solutions[0] is the best solution
+      assert SortUtils.isSortedDesc(solutions, NondominatedPopulation::compare);
+
       boolean should_add = true;
-      for (Solution solution : solutions)
+      int size = solutions.size();
+      for (int i=size-1; i >= 0; --i)
       {
-         int flag = compare(solution_to_add, solution);
+         Solution solution = solutions.get(i);
+         int flag = invertedCompare(solution_to_add, solution);
 
          if (flag < 0)
          {
             solutions_to_remove.add(solution);
          }
-         else if (flag > 0)
+         else if (flag > 0) // solution is better than solution_to_add
          {
             should_add = false;
             break;
@@ -76,8 +93,10 @@ public class NondominatedPopulation extends Population {
       return Math.sqrt(distance);
    }
 
-   public void truncate(int size)
+
+   public void sortDescAndTruncate(int size)
    {
-      truncate(size, NondominatedPopulation::compare);
+      // solutions must be sorted descendingly such that solutions[0] is the best solution
+      sortAndTruncate(size, NondominatedPopulation::invertedCompare);
    }
 }

@@ -1,6 +1,7 @@
 package com.github.chen0040.moea.components;
 
 
+import com.github.chen0040.moea.utils.CostFunction;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +23,7 @@ public class Mediator implements Serializable {
    private List<Double> upperBounds = new ArrayList<>();
    private RandomGenerator randomGenerator = new RandomGeneratorImpl();
    private double mutationRate = 0.1;
+   private CostFunction costFunction;
 
    public double randomWithinBounds(int index){
       double lowerBound = lowerBounds.get(index);
@@ -31,7 +33,7 @@ public class Mediator implements Serializable {
 
 
    public double evaluate(Solution solution, int objective_index) {
-      return 0;
+      return costFunction.evaluate(solution, objective_index, lowerBounds, upperBounds);
    }
 
 
