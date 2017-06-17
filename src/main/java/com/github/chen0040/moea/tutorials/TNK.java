@@ -26,7 +26,7 @@ public class TNK implements Tutorial {
             f = x.get(0) + M * h;
             break;
          }
-         case 1:
+         default:
          {
             h = getConstraint(x.get(0), x.get(1));
             f = x.get(1) + M * h;
