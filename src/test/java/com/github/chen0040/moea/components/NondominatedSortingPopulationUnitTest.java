@@ -4,11 +4,9 @@ package com.github.chen0040.moea.components;
 import com.github.chen0040.moea.utils.ArrayListUtils;
 import com.github.chen0040.moea.utils.CostFunction;
 import com.github.chen0040.moea.utils.SortUtils;
-import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.List;
 import java.util.Random;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
@@ -20,7 +18,7 @@ import static org.testng.Assert.*;
 /**
  * Created by xschen on 17/6/2017.
  */
-public class NondominatedPopulationUnitTest {
+public class NondominatedSortingPopulationUnitTest {
 
    private static final int dimension = 1000;
    private static final Random random = new Random();
@@ -41,7 +39,7 @@ public class NondominatedPopulationUnitTest {
 
    @Test
    public void test_sortDescAndTruncate(){
-      NondominatedPopulation population = new NondominatedPopulation();
+      NondominatedSortingPopulation population = new NondominatedSortingPopulation();
       population.setPopulationSize(100);
       population.initialize();
 
@@ -51,7 +49,7 @@ public class NondominatedPopulationUnitTest {
       population.sortDescAndTruncate(99);
 
       assertThat(population.size()).isEqualTo(99);
-      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedPopulation::compare));
+      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedSortingPopulation::compare));
 
       for(int i=0; i < 10; ++i){
          Solution s1 = population.get(i);
@@ -61,7 +59,7 @@ public class NondominatedPopulationUnitTest {
 
    @Test
    public void test_add(){
-      NondominatedPopulation population = new NondominatedPopulation();
+      NondominatedSortingPopulation population = new NondominatedSortingPopulation();
       population.setPopulationSize(100);
       population.initialize();
 
@@ -70,9 +68,9 @@ public class NondominatedPopulationUnitTest {
       }
 
       population.sortDescAndTruncate(100);
-      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedPopulation::compare));
+      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedSortingPopulation::compare));
 
-      NondominatedPopulation population2 = (NondominatedPopulation) population.makeCopy();
+      NondominatedSortingPopulation population2 = (NondominatedSortingPopulation) population.makeCopy();
 
       boolean added = false;
       for(int i=0; i < 100; ++i) {
@@ -83,15 +81,24 @@ public class NondominatedPopulationUnitTest {
          }
       }
 
-      assertTrue(SortUtils.isSortedDesc(population2.solutions, NondominatedPopulation::compare));
+      assertTrue(SortUtils.isSortedDesc(population2.solutions, NondominatedSortingPopulation::compare));
 
       if(added) {
          assertThat(population.solutions).isNotEqualTo(population2.solutions);
       }
 
       population.add(population2);
-      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedPopulation::compare));
+      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedSortingPopulation::compare));
 
 
+   }
+
+   @Test
+   public void test_better(){
+      Solution s1 = new Solution();
+      s1.getCosts().add(0.1);
+      Solution s2 = new Solution();
+      s2.getCosts().add(0.2);
+      assertTrue(NondominatedSortingPopulation.better(s1, s2));
    }
 }

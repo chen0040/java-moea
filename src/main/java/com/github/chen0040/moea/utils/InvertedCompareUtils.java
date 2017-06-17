@@ -12,7 +12,6 @@ public class InvertedCompareUtils {
    public static TupleTwo<Integer, Boolean> EpsilonObjectiveCompare(Solution solution1, Solution solution2, double[] epsilons)
    {
       boolean is_same_box=false;
-      int compare = 0;
 
       boolean dominate1 = false;
       boolean dominate2 = false;
