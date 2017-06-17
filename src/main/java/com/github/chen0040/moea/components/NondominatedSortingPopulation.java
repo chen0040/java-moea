@@ -113,10 +113,6 @@ public class NondominatedSortingPopulation extends Population {
       if(index == -1){
          return false;
       }
-
-      int lt = index - 1;
-      int gt = index + 1;
-
       boolean added = false;
       for(int i=0; i < solutions.size(); ++i) {
          if (!better(solutions.get(i), solution_to_add)) {
@@ -129,6 +125,6 @@ public class NondominatedSortingPopulation extends Population {
          solutions.add(solution_to_add);
       }
 
-      return false;
+      return true;
    }
 }

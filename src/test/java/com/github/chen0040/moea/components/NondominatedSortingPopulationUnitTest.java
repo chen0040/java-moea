@@ -101,4 +101,33 @@ public class NondominatedSortingPopulationUnitTest {
       s2.getCosts().add(0.2);
       assertTrue(NondominatedSortingPopulation.better(s1, s2));
    }
+
+   @Test
+   public void test_replace(){
+      NondominatedSortingPopulation population = new NondominatedSortingPopulation();
+      population.setPopulationSize(100);
+      population.initialize();
+
+      for(Solution s : population) {
+         s.evaluate(mediator);
+      }
+
+      population.sortDescAndTruncate(100);
+      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedSortingPopulation::compare));
+
+      NondominatedSortingPopulation population2 = (NondominatedSortingPopulation) population.makeCopy();
+
+      boolean replaced = false;
+      for(int i=0; i < 100; ++i) {
+         Solution s = new Solution();
+         s.evaluate(mediator);
+         if(population2.replace(population2.any(), s)){
+            replaced = true;
+         }
+      }
+
+      assertTrue(SortUtils.isSortedDesc(population2.solutions, NondominatedSortingPopulation::compare));
+      assertTrue(replaced);
+      assertThat(population.solutions).isNotEqualTo(population2.solutions);
+   }
 }

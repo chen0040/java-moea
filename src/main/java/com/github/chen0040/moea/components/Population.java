@@ -91,4 +91,9 @@ public class Population implements Serializable,Iterable<Solution> {
       }
       mediator = rhs.mediator;
    }
+
+
+   public Solution any() {
+      return solutions.get(mediator.nextInt(solutions.size()));
+   }
 }
