@@ -29,7 +29,9 @@ public class SolutionUnitTest {
       mediator.setMutationRate(0.2);
 
       CostFunction costFunction = Mockito.mock(CostFunction.class);
-      Mockito.when(costFunction.evaluate(any(Solution.class), anyInt(), anyListOf(Double.class), anyListOf(Double.class))).thenReturn(10.0);
+      Mockito.when(costFunction.evaluate(any(Solution.class), eq(0), anyListOf(Double.class), anyListOf(Double.class))).thenReturn(10.0);
+      Mockito.when(costFunction.evaluate(any(Solution.class), eq(1), anyListOf(Double.class), anyListOf(Double.class))).thenReturn(20.0);
+      Mockito.when(costFunction.evaluate(any(Solution.class), eq(2), anyListOf(Double.class), anyListOf(Double.class))).thenReturn(30.0);
       mediator.setCostFunction(costFunction);
    }
 
