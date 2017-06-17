@@ -2,6 +2,7 @@ package com.github.chen0040.moea.components;
 
 
 import com.github.chen0040.moea.utils.ArrayListUtils;
+import com.github.chen0040.moea.utils.CostFunction;
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -9,8 +10,7 @@ import org.testng.annotations.Test;
 import java.util.Comparator;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.*;
 
 
 /**
@@ -30,16 +30,15 @@ public class PopulationUnitTest {
       mediator.setObjectiveCount(3);
       mediator.setMutationRate(0.2);
 
-      mediator = Mockito.spy(mediator);
-      Mockito.when(mediator.evaluate(any(), eq(0))).thenReturn(10.0);
-      Mockito.when(mediator.evaluate(any(), eq(1))).thenReturn(20.0);
-      Mockito.when(mediator.evaluate(any(), eq(2))).thenReturn(30.0);
+      CostFunction costFunction = Mockito.mock(CostFunction.class);
+      Mockito.when(costFunction.evaluate(any(Solution.class), anyInt(), anyListOf(Double.class), anyListOf(Double.class))).thenReturn(10.0);
+      mediator.setCostFunction(costFunction);
    }
 
    @Test
    public void test_truncate(){
       Population p = new Population();
-      p.setPopulationSize(1000);
+      p.setMediator(mediator);
       p.initialize();
 
       for(int i=0; i < p.size(); ++i){

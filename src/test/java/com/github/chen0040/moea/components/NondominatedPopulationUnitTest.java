@@ -32,6 +32,7 @@ public class NondominatedPopulationUnitTest {
       mediator.setUpperBounds(ArrayListUtils.asList(1.0, dimension));
       mediator.setObjectiveCount(3);
       mediator.setMutationRate(0.2);
+      mediator.setPopulationSize(100);
 
       CostFunction costFunction = (CostFunction) (s, objective_index, lowerBounds, upperBounds) -> random.nextDouble();
       mediator.setCostFunction(costFunction);
@@ -40,7 +41,7 @@ public class NondominatedPopulationUnitTest {
    @Test
    public void test_sortDescAndTruncate(){
       NondominatedPopulation population = new NondominatedPopulation();
-      population.setPopulationSize(100);
+      population.setMediator(mediator);
       population.initialize();
 
       for(Solution s : population) {
@@ -60,36 +61,31 @@ public class NondominatedPopulationUnitTest {
    @Test
    public void test_add(){
       NondominatedPopulation population = new NondominatedPopulation();
-      population.setPopulationSize(100);
-      population.initialize();
+      population.setMediator(mediator);
 
-      for(Solution s : population) {
-         s.evaluate(mediator);
-      }
-
-      population.sortDescAndTruncate(100);
-      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedPopulation::compare));
-
-      NondominatedPopulation population2 = (NondominatedPopulation) population.makeCopy();
-
-      boolean added = false;
       for(int i=0; i < 100; ++i) {
          Solution s = new Solution();
          s.evaluate(mediator);
-         if(population2.add(s)){
-            added = true;
-         }
+         population.add(s);
       }
 
-      assertTrue(SortUtils.isSortedDesc(population2.solutions, NondominatedPopulation::compare));
+      assertTrue(SortUtils.allEqual(population.solutions, NondominatedPopulation::compare));
 
-      if(added) {
-         assertThat(population.solutions).isNotEqualTo(population2.solutions);
+      System.out.println("population size: " + population.size());
+
+      NondominatedPopulation population2 = new NondominatedPopulation();
+      population2.setMediator(mediator);
+      population2.initialize();
+
+      for(Solution s : population2) {
+         s.evaluate(mediator);
       }
 
       population.add(population2);
-      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedPopulation::compare));
 
+      System.out.println("population size: " + population.size());
+
+      assertTrue(SortUtils.allEqual(population.solutions, NondominatedPopulation::compare));
 
    }
 
@@ -102,54 +98,4 @@ public class NondominatedPopulationUnitTest {
       assertTrue(NondominatedPopulation.better(s1, s2));
    }
 
-   @Test
-   public void test_replace(){
-      NondominatedPopulation population = new NondominatedPopulation();
-      population.setPopulationSize(100);
-      population.initialize();
-
-      for(Solution s : population) {
-         s.evaluate(mediator);
-      }
-
-      population.sortDescAndTruncate(100);
-      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedPopulation::compare));
-
-      NondominatedPopulation population2 = (NondominatedPopulation) population.makeCopy();
-
-      boolean replaced = false;
-      for(int i=0; i < 100; ++i) {
-         Solution s = new Solution();
-         s.evaluate(mediator);
-         if(population2.replace(population2.any(), s)){
-            replaced = true;
-         }
-      }
-
-      assertTrue(SortUtils.isSortedDesc(population2.solutions, NondominatedPopulation::compare));
-      assertTrue(replaced);
-      assertThat(population.solutions).isNotEqualTo(population2.solutions);
-
-      population2.clear();
-   }
-
-   @Test
-   public void test_remove(){
-      NondominatedPopulation population = new NondominatedPopulation();
-      population.setPopulationSize(100);
-      population.initialize();
-
-      for(Solution s : population) {
-         s.evaluate(mediator);
-      }
-
-      population.sortDescAndTruncate(100);
-      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedPopulation::compare));
-
-      population.remove(population.any());
-      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedPopulation::compare));
-
-      population.remove(mediator.nextInt(population.size()));
-      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedPopulation::compare));
-   }
 }

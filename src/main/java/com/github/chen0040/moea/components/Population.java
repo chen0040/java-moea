@@ -26,10 +26,11 @@ public class Population implements Serializable,Iterable<Solution> {
    protected final List<Solution> solutions = new ArrayList<>();
    protected Mediator mediator = new Mediator();
    protected int generation = 0;
-   protected int populationSize = 1000;
+
 
    public void initialize(){
 
+      int populationSize = mediator.getPopulationSize();
       solutions.clear();
       for(int i=0; i < populationSize; ++i){
          Solution s = new Solution();
@@ -42,6 +43,10 @@ public class Population implements Serializable,Iterable<Solution> {
       for(Solution s : population){
          add(s);
       }
+   }
+
+   public void sort(Comparator<Solution> comparator) {
+      QuickSort.sort(solutions, comparator);
    }
 
    public void sortAndTruncate(int size, Comparator<Solution> comparator) {
@@ -83,7 +88,6 @@ public class Population implements Serializable,Iterable<Solution> {
    }
 
    public void copy(Population rhs) {
-      populationSize = rhs.populationSize;
       generation = rhs.generation;
       solutions.clear();
       for(Solution s : rhs.solutions) {
@@ -92,22 +96,6 @@ public class Population implements Serializable,Iterable<Solution> {
       mediator = rhs.mediator;
    }
 
-
-   public Solution any() {
-      return solutions.get(mediator.nextInt(solutions.size()));
-   }
-
-   public void remove(int index){
-      solutions.remove(index);
-   }
-
-   public void remove(Solution s) {
-      solutions.remove(s);
-   }
-
-   public void clear(){
-      solutions.clear();
-   }
 
 
 }

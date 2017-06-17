@@ -55,4 +55,14 @@ public class SortUtils {
       return true;
    }
 
+
+   public static <S> boolean allEqual(List<S> a, Comparator<S> comparator) {
+      for(int i=1; i < a.size(); ++i) {
+         int j = i-1;
+         if(comparator.compare(a.get(j), a.get(i)) != 0) {
+            return false;
+         }
+      }
+      return true;
+   }
 }

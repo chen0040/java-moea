@@ -24,6 +24,7 @@ public class Mediator implements Serializable {
    private RandomGenerator randomGenerator = new RandomGeneratorImpl();
    private double mutationRate = 0.1;
    private CostFunction costFunction;
+   private int populationSize = 1000;
 
    public double randomWithinBounds(int index){
       double lowerBound = lowerBounds.get(index);

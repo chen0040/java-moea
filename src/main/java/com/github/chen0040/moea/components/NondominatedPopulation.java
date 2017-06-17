@@ -26,10 +26,12 @@ public class NondominatedPopulation extends Population {
       return clone;
    }
 
+   // compare by costs and constraints
    public static int compare(Solution s1, Solution s2){
       return - invertedCompare(s1, s2);
    }
 
+   // compare by costs and constraints but invert the sign
    public static int invertedCompare(Solution s1, Solution s2) {
       int flag = InvertedCompareUtils.ConstraintCompare(s1, s2);
 
@@ -45,14 +47,9 @@ public class NondominatedPopulation extends Population {
    {
       List<Solution> solutions_to_remove = new ArrayList<>();
 
-      // solutions must be sorted descendingly at this point such that solutions[0] is the best solution
-      assert SortUtils.isSortedDesc(solutions, NondominatedPopulation::compare);
-
       boolean should_add = true;
-      int size = solutions.size();
-      for (int i=size-1; i >= 0; --i)
+      for (Solution solution : solutions)
       {
-         Solution solution = solutions.get(i);
          int flag = invertedCompare(solution_to_add, solution);
 
          if (flag < 0)
@@ -75,8 +72,11 @@ public class NondominatedPopulation extends Population {
 
       if (should_add)
       {
-         return super.add(solution_to_add);
+         return solutions.add(solution_to_add);
       }
+
+
+
       return should_add;
    }
 
@@ -93,38 +93,15 @@ public class NondominatedPopulation extends Population {
       return Math.sqrt(distance);
    }
 
-
+   // sort by costs and constraints and truncate
    public void sortDescAndTruncate(int size)
    {
       // solutions must be sorted descendingly such that solutions[0] is the best solution
       sortAndTruncate(size, NondominatedPopulation::invertedCompare);
    }
 
+   // better in the sense of costs and constraints
    public static boolean better(Solution s1, Solution s2) {
       return invertedCompare(s1, s2) < 0;
-   }
-
-   public boolean replace(Solution solution_to_remove, Solution solution_to_add)
-   {
-      // solutions must be sorted descendingly at this point such that solutions[0] is the best solution
-      assert SortUtils.isSortedDesc(solutions, NondominatedPopulation::compare);
-
-      int index = solutions.indexOf(solution_to_remove);
-      if(index == -1){
-         return false;
-      }
-      boolean added = false;
-      for(int i=0; i < solutions.size(); ++i) {
-         if (!better(solutions.get(i), solution_to_add)) {
-            solutions.add(i, solution_to_add);
-            added = true;
-            break;
-         }
-      }
-      if(!added) {
-         solutions.add(solution_to_add);
-      }
-
-      return true;
    }
 }

@@ -29,7 +29,7 @@ public class Solution implements Serializable {
    @Getter(AccessLevel.NONE)
    protected final List<Double> data = new ArrayList<>();
 
-   protected int rank = 0; // the lower the rank the better the solution
+   protected int rank = -1; // the lower the rank the better the solution
    protected double crowdingDistance = 0; // the higher the distance the better the solution
 
    public Solution()
