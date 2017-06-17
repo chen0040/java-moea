@@ -129,5 +129,27 @@ public class NondominatedSortingPopulationUnitTest {
       assertTrue(SortUtils.isSortedDesc(population2.solutions, NondominatedSortingPopulation::compare));
       assertTrue(replaced);
       assertThat(population.solutions).isNotEqualTo(population2.solutions);
+
+      population2.clear();
+   }
+
+   @Test
+   public void test_remove(){
+      NondominatedSortingPopulation population = new NondominatedSortingPopulation();
+      population.setPopulationSize(100);
+      population.initialize();
+
+      for(Solution s : population) {
+         s.evaluate(mediator);
+      }
+
+      population.sortDescAndTruncate(100);
+      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedSortingPopulation::compare));
+
+      population.remove(population.any());
+      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedSortingPopulation::compare));
+
+      population.remove(mediator.nextInt(population.size()));
+      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedSortingPopulation::compare));
    }
 }

@@ -96,4 +96,18 @@ public class Population implements Serializable,Iterable<Solution> {
    public Solution any() {
       return solutions.get(mediator.nextInt(solutions.size()));
    }
+
+   public void remove(int index){
+      solutions.remove(index);
+   }
+
+   public void remove(Solution s) {
+      solutions.remove(s);
+   }
+
+   public void clear(){
+      solutions.clear();
+   }
+
+
 }
