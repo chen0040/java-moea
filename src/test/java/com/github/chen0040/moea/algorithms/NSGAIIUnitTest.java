@@ -5,6 +5,7 @@ import com.github.chen0040.moea.components.NondominatedPopulation;
 import com.github.chen0040.moea.enums.CrossoverType;
 import com.github.chen0040.moea.enums.ReplacementType;
 import com.github.chen0040.moea.tutorials.NDND;
+import com.github.chen0040.moea.tutorials.OKA2;
 import com.github.chen0040.moea.tutorials.TNK;
 import org.testng.annotations.Test;
 
@@ -63,4 +64,16 @@ public class NSGAIIUnitTest {
 
       NondominatedPopulation pareto_front = algorithm.solve();
    }
+
+   @Test
+   public void test_oka2(){
+      NSGAII algorithm = new NSGAII();
+      algorithm.getMediator().read(new OKA2());
+      algorithm.getMediator().setPopulationSize(1000);
+      algorithm.getMediator().setMaxGenerations(100);
+      algorithm.setDisplayEvery(10);
+
+      NondominatedPopulation pareto_front = algorithm.solve();
+   }
+
 }
