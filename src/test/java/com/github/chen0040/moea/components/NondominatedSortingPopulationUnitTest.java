@@ -49,7 +49,7 @@ public class NondominatedSortingPopulationUnitTest {
 
       assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedSortingPopulation::compare));
 
-      for(int i=0; i < 100; ++i){
+      for(int i=0; i < 10; ++i){
          Solution s1 = population.get(i);
          System.out.println("rank: " + s1.getRank());
       }
@@ -62,6 +62,75 @@ public class NondominatedSortingPopulationUnitTest {
       Solution s2 = new Solution();
       s2.setRank(3);
       assertTrue(NondominatedSortingPopulation.better(s1, s2));
+   }
+
+   @Test
+   public void test_replace(){
+      NondominatedSortingPopulation population = new NondominatedSortingPopulation();
+      population.setMediator(mediator);
+      population.initialize();
+
+      for(Solution s : population) {
+         s.evaluate(mediator);
+      }
+
+      population.sort();
+
+      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedSortingPopulation::compare));
+
+      NondominatedSortingPopulation population2 = (NondominatedSortingPopulation)population.makeCopy();
+      for(int i=0; i < 10; ++i) {
+         Solution s =new Solution();
+         s.evaluate(mediator);
+         population2.replace(population2.any(), s);
+      }
+
+      population2.sort();
+
+      assertTrue(SortUtils.isSortedDesc(population2.solutions, NondominatedSortingPopulation::compare));
+
+      assertThat(population2.solutions).isNotEqualTo(population.solutions);
+
+   }
+
+   @Test
+   public void test_remove(){
+      NondominatedSortingPopulation population = new NondominatedSortingPopulation();
+      population.setMediator(mediator);
+      population.initialize();
+
+      for(Solution s : population) {
+         s.evaluate(mediator);
+      }
+
+      population.sort();
+
+      assertThat(population.size()).isEqualTo(100);
+
+      assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedSortingPopulation::compare));
+
+      NondominatedSortingPopulation population2 = (NondominatedSortingPopulation)population.makeCopy();
+
+      assertThat(population2.size()).isEqualTo(100);
+
+      for(int i=0; i < 10; ++i) {
+         population2.remove(population2.any());
+      }
+
+      assertThat(population2.size()).isEqualTo(90);
+
+      for(int i=0; i < 10; ++i) {
+         population2.remove(i);
+      }
+
+      assertThat(population2.size()).isEqualTo(80);
+
+      population2.sort();
+
+      assertTrue(SortUtils.isSortedDesc(population2.solutions, NondominatedSortingPopulation::compare));
+
+      assertThat(population2.solutions).isNotEqualTo(population.solutions);
+
    }
 
 }
