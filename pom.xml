@@ -6,7 +6,7 @@
 
     <groupId>com.github.chen0040</groupId>
     <artifactId>java-moea</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
 
     <licenses>
@@ -38,8 +38,8 @@
     </issueManagement>
 
 
-    <name>Self-Organizing Feature Map</name>
-    <description>Java implementation of self-organizing feature map (Kohonen map)</description>
+    <name>Multi-Objective Optimization Framework</name>
+    <description>Multi-Objective Optimization Framework in Java</description>
     <url>https://github.com/chen0040/java-moea</url>
 
     <distributionManagement>
