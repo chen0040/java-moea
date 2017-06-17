@@ -7,6 +7,11 @@ import com.github.chen0040.moea.components.Solution;
 
 /**
  * Created by xschen on 16/6/2017.
+ * All the methods in this class has the followin behavior
+ *
+ *  return -1 if solution 1 is better
+ *  return 1 if solution 2 is better
+ *  return 0 if both solutions dominating
  */
 public class InvertedCompareUtils {
    public static TupleTwo<Integer, Boolean> EpsilonObjectiveCompare(Solution solution1, Solution solution2, double[] epsilons)
@@ -89,6 +94,8 @@ public class InvertedCompareUtils {
       }
    }
 
+   // return -1 if solution 1 is better
+   // return 1 if solution 2 is better
    public static int ConstraintCompare(Solution solution1, Solution solution2)
    {
       double constraints1 = 0;
@@ -125,6 +132,8 @@ public class InvertedCompareUtils {
       }
    }
 
+   // return -1 if solution 1 is better
+   // return 1 if solution 2 is better
    public static int ParetoConstraintCompare(Solution solution1, Solution solution2)
    {
       boolean dominate1 = false;
@@ -165,6 +174,8 @@ public class InvertedCompareUtils {
       }
    }
 
+   // return -1 if solution 1 is better
+   // return 1 if solution 2 is better
    public static int ParetoObjectiveCompare(Solution solution1, Solution solution2)
    {
       boolean dominate1 = false;
@@ -208,7 +219,8 @@ public class InvertedCompareUtils {
    }
 
 
-
+   // return -1 if solution 1 is better
+   // return 1 if solution 2 is better
    public static int CrowdingDistanceCompare(Solution solution1, Solution solution2)
    {
       double crowding1 = solution1.getCrowdingDistance();
@@ -228,6 +240,8 @@ public class InvertedCompareUtils {
       }
    }
 
+   // return -1 if solution 1 is better
+   // return 1 if solution 2 is better
    public static int RankCompare(Solution solution1, Solution solution2)
    {
       int rank1 = solution1.getRank();

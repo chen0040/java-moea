@@ -26,11 +26,15 @@ public class NondominatedSortingPopulation extends Population {
    }
 
    // compare by rank and crowding distance
+   // return -1 if s2 is better
+   // return 1 is s1 is better
    public static int compare(Solution s1, Solution s2){
       return - invertedCompare(s1, s2);
    }
 
    // compare by rank and crowding distance but invert the sign
+   // return 1 if s1 is better
+   // return -1 if s2 is better
    public static int invertedCompare(Solution s1, Solution s2) {
       int flag = InvertedCompareUtils.RankCompare(s1, s2);
 

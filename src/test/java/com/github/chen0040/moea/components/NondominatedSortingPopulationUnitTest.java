@@ -71,7 +71,7 @@ public class NondominatedSortingPopulationUnitTest {
 
       assertTrue(SortUtils.isSortedDesc(population.solutions, NondominatedSortingPopulation::compare));
 
-      for(int i=0; i < 10; ++i){
+      for(int i=0; i < 100; ++i){
          Solution s1 = population.get(i);
          System.out.println("rank: " + s1.getRank());
       }

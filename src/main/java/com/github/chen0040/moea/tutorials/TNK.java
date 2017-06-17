@@ -37,7 +37,7 @@ public class TNK implements Tutorial {
    }
 
    //  use the design parameters to compute the constraint equation to get the value
-   @Override public double getConstraint(double x1, double x2)
+   private double getConstraint(double x1, double x2)
    {
       double c1,c2,h;
       c1 = -x1*x1-x2*x2+1+0.1*Math.cos(16*Math.atan(x1/x2));

@@ -21,6 +21,8 @@ import lombok.Setter;
 public class NSGAII {
    private Mediator mediator = new Mediator();
 
+   private int displayEvery = -1;
+
    @Setter(AccessLevel.NONE)
    private NondominatedPopulation archive = new NondominatedPopulation();
 
@@ -35,12 +37,18 @@ public class NSGAII {
       int maxGenerations = mediator.getMaxGenerations();
       for(int generation = 0; generation < maxGenerations; ++generation) {
          evolve();
+         if(displayEvery > 0 && generation % displayEvery == 0){
+            System.out.println("Generation #" + generation + "\tArchive size: " + archive.size());
+         }
       }
 
       return archive;
    }
 
    public void initialize(){
+      archive.setMediator(mediator);
+      archive.clear();
+
       population.setMediator(mediator);
       population.initialize();
       evaluate(population);
@@ -59,16 +67,16 @@ public class NSGAII {
       {
          TournamentSelectionResult<Solution> tournament = TournamentSelection.select(population.getSolutions(), mediator.getRandomGenerator(), (s1, s2) ->
          {
-            int flag = 0;
-            if ((flag = InvertedCompareUtils.ConstraintCompare(s1, s2))==0)
+            int flag;
+            if ((flag = InvertedCompareUtils.ConstraintCompare(s1, s2))==0) // return -1 if s1 is better
             {
-               if ((flag = InvertedCompareUtils.ParetoObjectiveCompare(s1, s2)) == 0)
+               if ((flag = InvertedCompareUtils.ParetoObjectiveCompare(s1, s2)) == 0) // return -1 if s1 is better
                {
-                  flag = InvertedCompareUtils.CrowdingDistanceCompare(s1, s2);
+                  flag = InvertedCompareUtils.CrowdingDistanceCompare(s1, s2); // return -1 if s1 is better
                }
             }
 
-            return flag < 0; // should return better
+            return flag < 0; // return -1 if s1 is better
          });
 
          TupleTwo<Solution, Solution> tournament_winners = tournament.getWinners();
@@ -77,6 +85,7 @@ public class NSGAII {
 
          Mutation.apply(mediator, children._1());
          Mutation.apply(mediator, children._2());
+
          offspring.add(children._1());
          offspring.add(children._2());
       }
@@ -99,7 +108,10 @@ public class NSGAII {
          Solution s = population.getSolutions().get(i);
          s.evaluate(mediator);
 
+         //System.out.println("cost1: " + s.getCost(0) + "\tcost2:" + s.getCost(1));
+
          boolean is_archivable = archive.add(s);
+
          if (archive.size() > mediator.getMaxArchive())
          {
             archive.truncate(mediator.getMaxArchive());

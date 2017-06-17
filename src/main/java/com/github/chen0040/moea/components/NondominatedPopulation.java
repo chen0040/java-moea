@@ -27,11 +27,15 @@ public class NondominatedPopulation extends Population {
    }
 
    // compare by costs and constraints
+   // return -1 if s2 is better
+   // return 1 if s1 is better
    public static int compare(Solution s1, Solution s2){
       return - invertedCompare(s1, s2);
    }
 
    // compare by costs and constraints but invert the sign
+   // return -1 if s1 is better
+   // return 1 if s2 is better
    public static int invertedCompare(Solution s1, Solution s2) {
       int flag = InvertedCompareUtils.ConstraintCompare(s1, s2);
 
@@ -42,6 +46,7 @@ public class NondominatedPopulation extends Population {
       return flag;
    }
 
+   // only add solution if solution is not worse than any solution in the non-dominated population
    @Override
    public boolean add(Solution solution_to_add)
    {
@@ -52,7 +57,7 @@ public class NondominatedPopulation extends Population {
       {
          int flag = invertedCompare(solution_to_add, solution);
 
-         if (flag < 0)
+         if (flag < 0) // solution_to_add is better
          {
             solutions_to_remove.add(solution);
          }
@@ -103,5 +108,10 @@ public class NondominatedPopulation extends Population {
    // better in the sense of costs and constraints
    public static boolean better(Solution s1, Solution s2) {
       return invertedCompare(s1, s2) < 0;
+   }
+
+
+   public void clear() {
+      solutions.clear();
    }
 }

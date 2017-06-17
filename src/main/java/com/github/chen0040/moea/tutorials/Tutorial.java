@@ -12,8 +12,6 @@ import java.util.List;
 public interface Tutorial {
    double getCost(Solution x, int objective_index);
 
-   //  use the design parameters to compute the constraint equation to Get the value
-   double getConstraint(double x1, double x2);
 
    int getObjectiveCount();
 
