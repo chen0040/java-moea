@@ -1,6 +1,7 @@
 package com.github.chen0040.moea.algorithms;
 
 
+import com.github.chen0040.data.utils.TupleTwo;
 import com.github.chen0040.moea.components.NondominatedPopulation;
 import com.github.chen0040.moea.enums.CrossoverType;
 import com.github.chen0040.moea.enums.ReplacementType;
@@ -9,6 +10,7 @@ import com.github.chen0040.moea.utils.CostFunction;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -134,6 +136,7 @@ public class NSGAIIUnitTest {
       algorithm.setDisplayEvery(10);
 
       NondominatedPopulation pareto_front = algorithm.solve();
+      List<TupleTwo<Double, Double>> front2d = pareto_front.front2D();
    }
 
 }

@@ -1,6 +1,7 @@
 package com.github.chen0040.moea.components;
 
 
+import com.github.chen0040.data.utils.TupleTwo;
 import com.github.chen0040.moea.utils.QuickSort;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -101,5 +102,18 @@ public class Population implements Serializable,Iterable<Solution> {
    }
 
 
+   public List<TupleTwo<Double, Double>> front2D() {
+      return front2D(0, 1);
+   }
 
+   public List<TupleTwo<Double, Double>> front2D(int objective1, int objective2) {
+      List<TupleTwo<Double, Double>> result =new ArrayList<>();
+      for(int i=0; i < solutions.size(); ++i){
+         Solution s = solutions.get(i);
+         result.add(new TupleTwo<>(
+                 s.getCost(objective1),
+                 s.getCost(objective2)));
+      }
+      return result;
+   }
 }

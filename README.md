@@ -11,7 +11,7 @@ Add the follow dependency to your POM file:
 <dependency>
   <groupId>com.github.chen0040</groupId>
   <artifactId>java-moea</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 
@@ -55,4 +55,23 @@ algorithm.setMaxGenerations(100);
 algorithm.setDisplayEvery(10);
 
 NondominatedPopulation pareto_front = algorithm.solve();
+```
+
+'pareto_front' is a set of solutions that represents that best solutions found by the algorithm (i.e. the pareto front).
+
+To access individual solution in the pareto front:
+
+```java
+for(int i=0; i < pareto_front.size(); ++i) {
+   Solution solution = pareto_front.get(i);
+}
+
+```
+
+To visualize the pareto front:
+ 
+```java
+List<TupleTwo<Double, Double>> pareto_front_data = pareto_front.front2D();
+ParetoFront chart = new ParetoFront(pareto_front_data, "Pareto Front");
+chart.showIt(true);
 ```
