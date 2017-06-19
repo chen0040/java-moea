@@ -28,12 +28,14 @@ public class Mediator implements Serializable {
    private List<Double> upperBounds = new ArrayList<>();
    private RandomGenerator randomGenerator = new RandomGeneratorImpl();
    private double mutationRate = 0.1;
+   private double crossoverRate = 0.5;
    private CostFunction costFunction;
    private int populationSize = 1000;
    private MutationType mutationType = MutationType.Uniform;
    private CrossoverType crossoverType = CrossoverType.OnePoint;
    private ReplacementType replacementType = ReplacementType.Generational;
    private int maxArchive = 50;
+   private double interpolation4DE=0.5;
 
    public void read(ProblemInstance problemInstance) {
       objectiveCount = problemInstance.getObjectiveCount();
@@ -68,5 +70,10 @@ public class Mediator implements Serializable {
 
    public int nextInt(int upper) {
       return randomGenerator.nextInt(upper);
+   }
+
+
+   public double applyBound(double y, int index) {
+      return Math.min(upperBounds.get(index), Math.max(lowerBounds.get(index), y));
    }
 }

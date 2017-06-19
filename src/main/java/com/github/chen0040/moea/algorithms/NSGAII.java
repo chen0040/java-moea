@@ -26,10 +26,10 @@ public class NSGAII extends Mediator {
    private NondominatedPopulation archive = new NondominatedPopulation();
 
    @Setter(AccessLevel.NONE)
-   private int currentGeneration = 0;
+   protected int currentGeneration = 0;
 
    @Setter(AccessLevel.NONE)
-   private NondominatedSortingPopulation population = new NondominatedSortingPopulation();
+   protected NondominatedSortingPopulation population = new NondominatedSortingPopulation();
 
    public NondominatedPopulation solve(){
       initialize();
@@ -101,7 +101,7 @@ public class NSGAII extends Mediator {
       currentGeneration++;
    }
 
-   private void evaluate(Population population) {
+   protected void evaluate(Population population) {
       for (int i = 0; i < population.size(); ++i)
       {
          Solution s = population.getSolutions().get(i);
