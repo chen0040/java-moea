@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Supplier;
 
 
 /**
@@ -30,11 +31,15 @@ public class Population implements Serializable,Iterable<Solution> {
 
 
    public void initialize(){
+      initialize(Solution::new);
+   }
+
+   public void initialize(Supplier<Solution> supplier){
 
       int populationSize = mediator.getPopulationSize();
       solutions.clear();
       for(int i=0; i < populationSize; ++i){
-         Solution s = new Solution();
+         Solution s = supplier.get();
          s.initialize(mediator);
          solutions.add(s);
       }
