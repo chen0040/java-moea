@@ -16,6 +16,7 @@ public class SYMPART implements ProblemInstance {
    private final static double a = 1;
    private final static double b = 10;
    private final static double c = 8;
+   private static final long serialVersionUID = -1412323130109052886L;
    private double c1;
    private double c2;
    private double b1;

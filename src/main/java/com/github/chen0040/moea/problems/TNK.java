@@ -13,6 +13,8 @@ import java.util.List;
 public class TNK implements ProblemInstance {
 
    public static final double M = 888888.0;
+   private static final long serialVersionUID = -1673652070484478816L;
+
 
    @Override
    public double getCost(Solution x, int objective_index)

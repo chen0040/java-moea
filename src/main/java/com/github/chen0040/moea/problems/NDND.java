@@ -11,6 +11,9 @@ import java.util.List;
  * Created by xschen on 17/6/2017.
  */
 public class NDND implements ProblemInstance {
+   private static final long serialVersionUID = 8627945754278982189L;
+
+
    @Override public double getCost(Solution x, int objective_index) {
 
       double f1 = 1 - Math.exp((-4) * x.get(0)) * Math.pow(Math.sin(5 * Math.PI * x.get(0)), 4);

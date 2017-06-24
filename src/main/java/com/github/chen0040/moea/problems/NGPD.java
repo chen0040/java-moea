@@ -13,6 +13,8 @@ import java.util.List;
 public class NGPD implements ProblemInstance {
 
    private final static double M = 888888.0;
+   private static final long serialVersionUID = -8997395531572954837L;
+
 
    @Override public double getCost(Solution x, int objective_index) {
       if(objective_index==0)

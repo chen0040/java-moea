@@ -11,6 +11,9 @@ import java.util.List;
  * Created by xschen on 17/6/2017.
  */
 public class OKA2 implements ProblemInstance {
+   private static final long serialVersionUID = 6665004120372165596L;
+
+
    @Override public double getCost(Solution x, int objective_index) {
       double f=0;
       switch(objective_index)
